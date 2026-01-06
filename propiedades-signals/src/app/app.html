@@ -1,0 +1,14 @@
+@for (item of properties(); track item.id) {
+  <div class="property-card">
+    <div class="property-details">
+      <h2>{{ item.address }}</h2>
+      <p>{{ item.description }}</p>
+      <ul>
+        <li>Price: ${{ item.price }}</li>
+        <li>City: {{ item.city }}</li>
+        <li>Bathrooms: {{ item.bathrooms }}</li>
+        <li>Bedrooms: {{ item.bedrooms }}</li>
+      </ul>
+    </div>
+  </div>
+}
