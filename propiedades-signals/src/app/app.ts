@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +6,12 @@ import { Component, OnInit, signal, computed } from '@angular/core';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
+  protected readonly properties = signal<Property[]>([]);
+
+  protected readonly total = computed(() => {
+    return this.properties().length;
+  });
+
   ngOnInit(): void {
     this.properties.set([
       {
@@ -32,45 +38,31 @@ export class App implements OnInit {
     ]);
   }
 
-  protected readonly properties = signal<Property[]>([]);
-
-  protected readonly total = computed(() => {this.properties().length});
-
   actualizarPropiedadesAdicionar() {
-    this.properties.update((c) => {
-      c.push({
-        id: 3,
-        address: 'Calle 10 # 45 - 20',
-        description: 'Casa campestre con amplio jardín',
-        price: 2800,
-        city: 'Envigado',
-        bathrooms: 3,
-        bedrooms: 4,
-        image: 'https://example.com/image3.jpg',
-      });
+    const nuevaPropiedad = {
+      id: 3,
+      address: 'Calle 10 # 45 - 20',
+      description: 'Casa campestre con amplio jardín',
+      price: 2800,
+      city: 'Envigado',
+      bathrooms: 3,
+      bedrooms: 4,
+      image: 'https://example.com/image3.jpg',
+    };
 
-      return c;
-    });
+    this.properties.update(c => [...c, nuevaPropiedad]);
   }
 
   actualizarPropiedad() {
     this.properties.update((c) => {
-
       return c.map((item) => {
-
         if (item.id == 1) {
-
           console.log(`Entro en el true`);
           return { ...item, address: 'Calle 14 # 55 - 20' };
-
         } else {
-
           return item;
-
         }
-
       });
-
     });
   }
 }
