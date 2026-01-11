@@ -1,0 +1,15 @@
+<div class="property-card">
+    <div class="property-details">
+        <h2>{{ item().address }}</h2>
+        <p>{{ item().description }}</p>
+        <ul>
+            <li>id : {{item().id}}</li>
+            <li>address : {{item().address}}</li>
+            <li>description : {{item().description}}</li>
+            <li>Price: ${{ item().price }}</li>
+            <li>City: {{ item().city }}</li>
+            <li>Bathrooms: {{ item().bathrooms }}</li>
+            <li>Bedrooms: {{ item().bedrooms }}</li>
+        </ul>
+    </div>
+</div>

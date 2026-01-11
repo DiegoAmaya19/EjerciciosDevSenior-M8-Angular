@@ -1,11 +1,12 @@
 import { Component, OnInit, signal, computed, OnChanges, SimpleChanges } from '@angular/core';
 import { DemoSignal } from "./demo-signal/demo-signal/demo-signal";
+import { ComponentCard } from "./component-card/component-card";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
-  imports: [DemoSignal],
+  imports: [DemoSignal, ComponentCard],
 })
 export class App implements OnInit {
   protected readonly properties = signal<Property[]>([]);
