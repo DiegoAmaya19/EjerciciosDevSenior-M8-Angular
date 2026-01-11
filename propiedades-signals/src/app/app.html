@@ -1,11 +1,22 @@
+@if(isLoading()){
+<!--  Mostrar el componenete cargando-->
+
+  <section>
+    <h5>Loading...</h5>
+    <div class="loader">
+    </div>
+  </section>
+
+} @else {
 @for (item of properties(); track item.id) {
-    <app-component-card [item]="item"></app-component-card>
+  <app-component-card [item]="item"></app-component-card>
 }
+  <button (click)="actualizarPropiedadesAdicionar()">Actualizar Agregar</button>
 
-<button (click)="actualizarPropiedadesAdicionar()">Actualizar Agregar</button>
+  <button (click)="actualizarPropiedad()">Actualizar una propiedad</button>
 
-<button (click)="actualizarPropiedad()">Actualizar una propiedad</button>
+  <h3>{{total()}}</h3>
 
-<h3>{{total()}}</h3>
+  <app-demo-signal></app-demo-signal>
 
-<app-demo-signal></app-demo-signal>
+}

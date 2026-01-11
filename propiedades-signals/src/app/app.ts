@@ -1,6 +1,7 @@
-import { Component, OnInit, signal, computed, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, signal, computed, OnChanges, SimpleChanges, effect, inject } from '@angular/core';
 import { DemoSignal } from "./demo-signal/demo-signal/demo-signal";
 import { ComponentCard } from "./component-card/component-card";
+import { PropertyService } from './service/property-service';
 
 @Component({
   selector: 'app-root',
@@ -9,36 +10,37 @@ import { ComponentCard } from "./component-card/component-card";
   imports: [DemoSignal, ComponentCard],
 })
 export class App implements OnInit {
+
+  private propertyService = inject(PropertyService);
+
+  protected readonly isLoading = signal(true);
+
   protected readonly properties = signal<Property[]>([]);
 
   protected readonly total = computed(() => {
     return this.properties().length;
   });
 
-  ngOnInit(): void {
-    this.properties.set([
-      {
-        id: 1,
-        address: 'Cra 1 # 2 - 03',
-        description: 'Una casa bien ubicada',
-        price: 2000,
-        city: 'Pereira',
-        bathrooms: 2,
-        bedrooms: 3,
-        image: 'https://example.com/image1.jpg',
-      },
+  constructor() {
+    effect(() => {
+      console.log(`Ha Cambiado la informacion de las propiedades y ahora hay ${this.total}`)
+    })
+  }
 
-      {
-        id: 2,
-        address: 'Cra 5 # 10 - 15',
-        description: 'Apartamento moderno en el centro',
-        price: 1500,
-        city: 'Medellín',
-        bathrooms: 1,
-        bedrooms: 2,
-        image: 'https://example.com/image2.jpg',
-      },
-    ]);
+  ngOnInit(): void {
+
+    this.isLoading.set(true);
+    
+    this.propertyService.getAll()
+    .subscribe({
+      next: (data) => {
+        this.properties.set(data);
+        this.isLoading.set(false);
+        },
+        error: () => {
+          console.error(`Ocurrio un problema con las propiedades`);
+        }
+      });
   }
 
   actualizarPropiedadesAdicionar() {
